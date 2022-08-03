@@ -2270,6 +2270,17 @@ module GFS_diagnostics
       ExtDiag(idx)%data(nb)%var2 => IntDiag(nb)%refdmax263k(:)
     enddo
 
+    idx = idx + 1
+    ExtDiag(idx)%axes = 2
+    ExtDiag(idx)%name = 'comprefmax'
+    ExtDiag(idx)%desc = 'max hourly composite reflectivity'
+    ExtDiag(idx)%unit = 'dBZ'
+    ExtDiag(idx)%mod_name = 'gfs_phys'
+    allocate (ExtDiag(idx)%data(nblks))
+    do nb = 1,nblks
+      ExtDiag(idx)%data(nb)%var2 => IntDiag(nb)%comprefmax(:)
+    enddo
+
     if (Model%do_sppt .or. Model%ca_global) then
       idx = idx + 1
       ExtDiag(idx)%axes = 3

@@ -1699,6 +1699,7 @@ module GFS_typedefs
 
     real (kind=kind_phys), pointer :: refdmax (:)    => null()   !< max hourly 1-km agl reflectivity
     real (kind=kind_phys), pointer :: refdmax263k(:) => null()   !< max hourly -10C reflectivity
+    real (kind=kind_phys), pointer :: comprefmax(:)  => null()   !< max composite reflectivity ! jdduda
     real (kind=kind_phys), pointer :: t02max  (:)    => null()   !< max hourly 2m T
     real (kind=kind_phys), pointer :: t02min  (:)    => null()   !< min hourly 2m T
     real (kind=kind_phys), pointer :: rh02max (:)    => null()   !< max hourly 2m RH
@@ -6800,6 +6801,7 @@ module GFS_typedefs
     !--  New max hourly diag.
     allocate (Diag%refdmax(IM))
     allocate (Diag%refdmax263k(IM))
+    allocate (Diag%comprefmax(IM)) ! jdduda
     allocate (Diag%t02max(IM))
     allocate (Diag%t02min(IM))
     allocate (Diag%rh02max(IM))
@@ -7116,6 +7118,7 @@ module GFS_typedefs
     Diag%refl_10cm   = -35.
     Diag%refdmax     = -35.
     Diag%refdmax263k = -35.
+    Diag%comprefmax  = -35. ! jdduda
     Diag%t02max      = -999.
     Diag%t02min      = 999.
     Diag%rh02max     = -999.
@@ -8132,7 +8135,7 @@ module GFS_typedefs
     if (Model%nsradar_reset<0) then
       Interstitial%radar_reset = .true.
     else
-      Interstitial%radar_reset = mod(Model%kdt-1, nint(Model%nsradar_reset/Model%dtp)) == 0
+      Interstitial%radar_reset = ( Model%kdt == 1 .or. mod(Model%kdt, nint(Model%nsradar_reset/Model%dtp)) == 0 )
     end if
     !
   end subroutine interstitial_phys_reset

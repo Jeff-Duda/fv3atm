@@ -7201,6 +7201,13 @@
   dimensions = (horizontal_loop_extent)
   type = real
   kind = kind_phys
+[comprefmax]
+  standard_name = maximum_composite_reflectivity_over_maximum_hourly_time_interval
+  long_name = maximum composite reflectivity over maximum hourly time interval
+  units = dBZ
+  dimensions = (horizontal_loop_extent)
+  type = real
+  kind = kind_phys
 [t02max]
   standard_name = maximum_temperature_at_2m_over_maximum_hourly_time_interval
   long_name = maximum temperature at 2m over maximum hourly time interval

@@ -475,6 +475,7 @@ module post_regional
                              w_up_max, w_dn_max, up_heli_max,up_heli_min,      &
                              up_heli_max03,up_heli_min03,rel_vort_max01,       &
                              rel_vort_max, rel_vort_maxhy1, refd_max,          &
+                             compref_max,                                      & ! jdduda
                              refdm10c_max, u10max, v10max, wspd10max, sfcuxi,  &
                              sfcvxi, t10m, t10avg, psfcavg, akhsavg, akmsavg,  &
                              albedo, tg, prate_max
@@ -1206,6 +1207,17 @@ module post_regional
                 do i=ista, iend
                   refdm10c_max(i,j) = arrayr42d(i,j)
                   if (abs(arrayr42d(i,j)-fillValue) < small) refdm10c_max(i,j) = spval
+                enddo
+              enddo
+            endif
+
+            ! max composite reflectivity
+            if(trim(fieldname)=='comprefmax') then
+              !$omp parallel do default(none) private(i,j) shared(jsta,jend,ista,iend,spval,compref_max,arrayr42d,sm,fillValue)
+              do j=jsta,jend
+                do i=ista, iend
+                  compref_max(i,j) = arrayr42d(i,j)
+                  if (abs(arrayr42d(i,j)-fillValue) < small) compref_max(i,j) = spval
                 enddo
               enddo
             endif
